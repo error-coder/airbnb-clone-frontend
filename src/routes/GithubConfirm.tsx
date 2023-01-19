@@ -1,17 +1,30 @@
-import { Text, Heading, VStack, Spinner } from "@chakra-ui/react";
+import { Text, Heading, VStack, Spinner, useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { githubLogIn } from "../api";
 
 
 export default function GithubConfirm(){
     const {search} = useLocation();
+    const toast = useToast();
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const confirmLogIn = async() => {
         const params = new URLSearchParams(search);
         const code = params.get("code");
         if (code) { 
-            await githubLogIn(code);
+            const status = await githubLogIn(code);
+            if (status === 200) {
+                toast({
+                    status: "success",
+                    title: "Welcome!",
+                    position: "bottom-right",
+                    description: "Happy to have you back!",
+                });
+                queryClient.refetchQueries(["me"]);
+                navigate("/");
+            }
         }
     };
     useEffect(() => {

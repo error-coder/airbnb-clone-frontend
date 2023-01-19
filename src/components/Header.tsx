@@ -5,7 +5,7 @@ import LogInModal from "./LogInModal";
 import SignUpModal from "./SignUpModal";
 import useUser from "../lib/useUser";
 import { logOut } from "../api";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Header(){
     const { userLoading , isLoggedIn, user } = useUser();
