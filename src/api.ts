@@ -30,3 +30,8 @@ export const logOut = () => instance.post(`users/log-out`, null, {
 export const githubLogIn = (code:string) => instance.post(`/users/github`, {code}, {headers: {
     "X-CSRFToken":Cookie.get("csrftoken") || "",
 },}).then((response) => response.status);
+
+
+export const kakaoLogin = (code:string) => instance.post(`/users/kakao`, {code}, {headers: {
+    "X-CSRFToken":Cookie.get("csrftoken") || "",
+},}).then((response) => response.status);
