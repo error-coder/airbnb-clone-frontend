@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
-import { Input, Box, Button, Modal, ModalContent, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, VStack, InputGroup, InputLeftElement, Text, } from "@chakra-ui/react";
+import { Input, Box, Button, Modal, ModalContent, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, VStack, InputGroup, InputLeftElement, Text, useToast, } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FaUserNinja, FaLock } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
+import { useMutation } from "@tanstack/react-query";
+import { usernameLogIn } from "../api";
 
 interface LogInModalProps {
     isOpen: boolean;
@@ -14,9 +16,23 @@ interface IForm {
     password: string;
 }
 
-
 export default function LogInModal({ isOpen, onClose } : LogInModalProps){
     const { register, handleSubmit, formState: {errors} } = useForm<IForm>();
+    const toast = useToast();
+    const mutation = useMutation(usernameLogIn, {
+        onMutate:() => {
+            console.log("mutation starting");
+        },
+        onSuccess:() => {
+            toast({
+                title:"welcome back!",
+                status:"success",
+            });
+        },
+        onError:() => {
+            console.log("mutation has an error");
+        }
+    });
     const onSubmit = (data: IForm) => {
         console.log(data);
     }
@@ -44,7 +60,7 @@ export default function LogInModal({ isOpen, onClose } : LogInModalProps){
                             <Text fontSize={"sm"} color="red.500">{errors.password?.message}</Text>
                         </InputGroup>
                     </VStack>
-                    <Button type="submit" mt={4} colorScheme={"red"} w="100%">Log in</Button>
+                    <Button isLoading={mutation.isLoading} type="submit" mt={4} colorScheme={"red"} w="100%">Log in</Button>
                     <SocialLogin />
                 </ModalBody>
             </ModalContent>

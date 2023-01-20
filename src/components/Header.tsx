@@ -23,8 +23,6 @@ export default function Header(){
             status:"success",
             position:"bottom-right",
         });
-        // const data = await logOut();
-        // console.log(data);
         await logOut();
         queryClient.refetchQueries(["me"]);
             toast.update(toastId, {
