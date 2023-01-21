@@ -3,8 +3,8 @@ import { Input, Box, Button, Modal, ModalContent, ModalOverlay, ModalHeader, Mod
 import React, { useState } from "react";
 import { FaUserNinja, FaLock } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
-import { useMutation } from "@tanstack/react-query";
-import { usernameLogIn } from "../api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { IUsernameLoginError, IUsernameLoginSuccess, IUsernameLoginVariables, usernameLogIn } from "../api";
 
 interface LogInModalProps {
     isOpen: boolean;
@@ -17,24 +17,25 @@ interface IForm {
 }
 
 export default function LogInModal({ isOpen, onClose } : LogInModalProps){
-    const { register, handleSubmit, formState: {errors} } = useForm<IForm>();
+    const { register, handleSubmit, formState: {errors}, reset } = useForm<IForm>();
     const toast = useToast();
-    const mutation = useMutation(usernameLogIn, {
+    const queryClient = useQueryClient();
+    const mutation = useMutation<IUsernameLoginSuccess, IUsernameLoginError, IUsernameLoginVariables>(usernameLogIn, {
         onMutate:() => {
             console.log("mutation starting");
         },
-        onSuccess:() => {
+        onSuccess:(data) => {
             toast({
                 title:"welcome back!",
                 status:"success",
             });
+            onClose();
+            queryClient.refetchQueries(["me"]);
+            reset();
         },
-        onError:() => {
-            console.log("mutation has an error");
-        }
     });
-    const onSubmit = (data: IForm) => {
-        console.log(data);
+    const onSubmit = ({username, password}: IForm) => {
+        mutation.mutate({ username, password });
     }
     console.log(errors);
         return (
@@ -60,6 +61,7 @@ export default function LogInModal({ isOpen, onClose } : LogInModalProps){
                             <Text fontSize={"sm"} color="red.500">{errors.password?.message}</Text>
                         </InputGroup>
                     </VStack>
+                    {mutation.isError ? <Text color="red.500" textAlign={"center"} fontSize="sm">Username or Password are wrong</Text> : null}
                     <Button isLoading={mutation.isLoading} type="submit" mt={4} colorScheme={"red"} w="100%">Log in</Button>
                     <SocialLogin />
                 </ModalBody>
