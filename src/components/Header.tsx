@@ -28,7 +28,7 @@ export default function Header(){
             });
         },
         onSuccess:() => {
-            if(toastId.current){
+            if (toastId.current) {
                 queryClient.refetchQueries(["me"]);
                 toast.update(toastId.current, {
                 status: "success",
@@ -66,6 +66,7 @@ export default function Header(){
                             <Avatar name={user?.name} src={user?.avatar} size={"md"} />
                         </MenuButton>
                         <MenuList>
+                            {user?.is_host ? <Link to="/rooms/upload"><MenuItem>Upload room</MenuItem></Link> : null}
                             <MenuItem onClick={onLogOut}>Log out</MenuItem>
                         </MenuList>
                     </Menu>
