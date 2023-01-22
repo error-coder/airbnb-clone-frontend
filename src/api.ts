@@ -53,3 +53,8 @@ export interface IUsernameLoginError {
 export const usernameLogIn = ({username, password}:IUsernameLoginVariables) => instance.post(`/users/log-in`, {username, password}, {headers: {
     "X-CSRFToken":Cookie.get("csrftoken") || "",
 },}).then((response) => response.data);
+
+
+export const getAmenities = () => instance.get(`rooms/amenities`).then((response) => response.data);
+
+export const getCategories = () => instance.get(`categories`).then((response) => response.data);
