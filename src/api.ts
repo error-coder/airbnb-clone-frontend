@@ -83,3 +83,19 @@ export const uploadRoom = (variables: IUploadRoomVariables) => instance.post(`ro
 export const getUploadURL = () => instance.post(`medias/photos/get-url`, null, {headers: {
     "X-CSRFToken": Cookie.get("csrftoken") || "",
 },}).then((response) => response.data);
+
+
+export interface IUploadImageVariables {
+    file: FileList;
+    uploadURL: string;
+}
+
+export const uploadImage = ({file, uploadURL} : IUploadImageVariables) => {
+    const form = new FormData();
+    form.append('file', file[0]);
+    return axios.post(uploadURL, form, {
+        headers: {
+            "Content-type": "multipart/form-data",
+        },
+    }).then((response) => response.data);
+};
