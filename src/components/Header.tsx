@@ -46,9 +46,9 @@ export default function Header() {
   const mutation = useMutation(logOut, {
     onMutate: () => {
       toastId.current = toast({
-        title: "Good bye!",
-        description: "See you later!",
-        status: "success",
+        title: "Login Out...",
+        description: "Sad to see you go...",
+        status: "loading",
         duration: 10000,
         position: "bottom-right",
       });

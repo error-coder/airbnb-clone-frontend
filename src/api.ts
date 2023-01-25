@@ -4,25 +4,26 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: "http://127.0.0.1:8000/api/v3/",
+  withCredentials: true,
 });
 
 export const getRooms = () =>
-  instance.get("rooms/").then((response) => response.data);
+  instance.get("rooms/").then(response => response.data);
 
 export const getRoom = ({ queryKey }: QueryFunctionContext) => {
   const [_, roomPk] = queryKey;
-  return instance.get(`rooms/${roomPk}`).then((response) => response.data);
+  return instance.get(`rooms/${roomPk}`).then(response => response.data);
 };
 
 export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
   const [_, roomPk] = queryKey;
   return instance
     .get(`rooms/${roomPk}/reviews`)
-    .then((response) => response.data);
+    .then(response => response.data);
 };
 
 export const getMe = () =>
-  instance.get(`users/me`).then((response) => response.data);
+  instance.get(`users/me`).then(response => response.data);
 
 export const logOut = () =>
   instance
@@ -31,7 +32,7 @@ export const logOut = () =>
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },
     })
-    .then((response) => response.data);
+    .then(response => response.data);
 
 export const githubLogIn = (code: string) =>
   instance
@@ -44,7 +45,7 @@ export const githubLogIn = (code: string) =>
         },
       }
     )
-    .then((response) => response.status);
+    .then(response => response.status);
 
 export const kakaoLogin = (code: string) =>
   instance
@@ -57,7 +58,7 @@ export const kakaoLogin = (code: string) =>
         },
       }
     )
-    .then((response) => response.status);
+    .then(response => response.status);
 
 export interface IUsernameLoginVariables {
   username: string;
@@ -86,13 +87,13 @@ export const usernameLogIn = ({
         },
       }
     )
-    .then((response) => response.data);
+    .then(response => response.data);
 
 export const getAmenities = () =>
-  instance.get(`rooms/amenities`).then((response) => response.data);
+  instance.get(`rooms/amenities`).then(response => response.data);
 
 export const getCategories = () =>
-  instance.get(`categories`).then((response) => response.data);
+  instance.get(`categories`).then(response => response.data);
 
 export interface IUploadRoomVariables {
   name: string;
@@ -116,7 +117,7 @@ export const uploadRoom = (variables: IUploadRoomVariables) =>
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },
     })
-    .then((response) => response.data);
+    .then(response => response.data);
 
 export const getUploadURL = () =>
   instance
@@ -125,7 +126,7 @@ export const getUploadURL = () =>
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },
     })
-    .then((response) => response.data);
+    .then(response => response.data);
 
 export interface IUploadImageVariables {
   file: FileList;
@@ -141,7 +142,7 @@ export const uploadImage = ({ file, uploadURL }: IUploadImageVariables) => {
         "Content-type": "multipart/form-data",
       },
     })
-    .then((response) => response.data);
+    .then(response => response.data);
 };
 
 export interface ICreatePhotoVariables {
@@ -165,4 +166,4 @@ export const createPhoto = ({
         },
       }
     )
-    .then((response) => response.data);
+    .then(response => response.data);

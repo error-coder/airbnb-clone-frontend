@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { FaStar, FaRegHeart, FaCamera } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import React from "react";
 
 interface IRoomProps {
   imageUrl: string;

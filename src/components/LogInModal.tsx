@@ -18,12 +18,7 @@ import {
 import { FaUserNinja, FaLock } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  IUsernameLoginError,
-  IUsernameLoginSuccess,
-  IUsernameLoginVariables,
-  usernameLogIn,
-} from "../api";
+import { usernameLogIn } from "../api";
 
 interface LogInModalProps {
   isOpen: boolean;
@@ -44,15 +39,8 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
   } = useForm<IForm>();
   const toast = useToast();
   const queryClient = useQueryClient();
-  const mutation = useMutation<
-    IUsernameLoginSuccess,
-    IUsernameLoginError,
-    IUsernameLoginVariables
-  >(usernameLogIn, {
-    onMutate: () => {
-      console.log("mutation starting");
-    },
-    onSuccess: (data) => {
+  const mutation = useMutation(usernameLogIn, {
+    onSuccess: () => {
       toast({
         title: "welcome back!",
         status: "success",
@@ -65,7 +53,6 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
   const onSubmit = ({ username, password }: IForm) => {
     mutation.mutate({ username, password });
   };
-  console.log(errors);
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
@@ -74,7 +61,7 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
         <ModalCloseButton />
         <ModalBody as="form" onSubmit={handleSubmit(onSubmit)}>
           <VStack>
-            <InputGroup>
+            <InputGroup size="md">
               <InputLeftElement
                 children={
                   <Box color={"gray.500"}>
@@ -83,10 +70,10 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
                 }
               />
               <Input
+                isInvalid={Boolean(errors.username?.message)}
                 {...register("username", {
                   required: "Please write a username",
                 })}
-                required
                 variant={"filled"}
                 placeholder={"Username"}
               />
@@ -104,7 +91,6 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
               />
               <Input
                 isInvalid={Boolean(errors.username?.message)}
-                required
                 {...register("password", {
                   required: "Please write a password",
                 })}
