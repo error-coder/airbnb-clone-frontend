@@ -3,13 +3,12 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 
-export default function Root(){
-    
-    return (
+export default function Root() {
+  return (
     <Box>
-        <Header />
-        <Outlet />
-        <ReactQueryDevtools />
+      <Header />
+      <Outlet />
+      <ReactQueryDevtools />
     </Box>
-    );
+  );
 }

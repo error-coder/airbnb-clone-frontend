@@ -53,12 +53,14 @@ export default function RoomDetail() {
             key={index}
           >
             <Skeleton isLoaded={!isLoading} h="100%" w="100%">
-              {data?.photos && data.photos.length > 0 ? (<Image
-                objectFit={"cover"}
-                w="100%"
-                h="100%"
-                src={data?.photos[index].file}
-              />) : null}
+              {data?.photos && data.photos.length > 4 ? (
+                <Image
+                  objectFit={"cover"}
+                  w="100%"
+                  h="100%"
+                  src={data?.photos[index].file}
+                />
+              ) : null}
             </Skeleton>
           </GridItem>
         ))}
@@ -97,21 +99,24 @@ export default function RoomDetail() {
         <Container mt={16} maxW="container.lg" marginX="none">
           <Grid gap={10} templateColumns={"1fr 1fr"}>
             {reviewsData?.map((review, index) => (
-            <VStack alignItems={"flex-start"} key={index}>
-              <HStack>
-                <Avatar name={review.user.name} src={review.user.avatar} size="md" />
-                <VStack spacing={0} alignItems={"flex-start"}>
-                  <Heading fontSize={"md"}>
-                    {review.user.name}
-                  </Heading>
-                  <HStack spacing={1}>
-                    <FaStar size="12px" />
-                    <Text>{review.rating}</Text>
-                  </HStack>
-                </VStack>
-              </HStack>
-              <Text>{review.payload}</Text>
-            </VStack>))}
+              <VStack alignItems={"flex-start"} key={index}>
+                <HStack>
+                  <Avatar
+                    name={review.user.name}
+                    src={review.user.avatar}
+                    size="md"
+                  />
+                  <VStack spacing={0} alignItems={"flex-start"}>
+                    <Heading fontSize={"md"}>{review.user.name}</Heading>
+                    <HStack spacing={1}>
+                      <FaStar size="12px" />
+                      <Text>{review.rating}</Text>
+                    </HStack>
+                  </VStack>
+                </HStack>
+                <Text>{review.payload}</Text>
+              </VStack>
+            ))}
           </Grid>
         </Container>
       </Box>
