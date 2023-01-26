@@ -15,26 +15,29 @@ export default function KakaoConfirm() {
     },
     onSuccess: () => {
       toast({
-        title: "welcome!",
         status: "success",
+        title: "welcome!",
       });
       queryClient.refetchQueries(["me"]);
       navigate("/");
     },
-    onError: (error) => {
-      console.log(`error : ${error}`);
+    onError: error => {
+      console.log(error);
     },
   });
+
   const confirmLogIn = async () => {
-    const params = new URLSearchParams(search);
-    const code = params.get("code");
+    const code = new URLSearchParams(search).get("code");
+
     if (code) {
       mutation.mutate(code);
     }
   };
+
   useEffect(() => {
     confirmLogIn();
   }, []);
+
   return (
     <VStack justifyContent={"center"} mt={40}>
       <Heading>Processing log in...</Heading>

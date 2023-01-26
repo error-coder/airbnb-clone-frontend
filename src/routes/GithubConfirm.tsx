@@ -11,20 +11,21 @@ export default function GithubConfirm() {
   const navigate = useNavigate();
   const mutation = useMutation(githubLogIn, {
     onMutate: () => {
-      console.log("mutation starting");
+      console.log("start mutate");
     },
     onSuccess: () => {
       toast({
-        title: "welcome!",
         status: "success",
+        title: "welcome!",
       });
       queryClient.refetchQueries(["me"]);
       navigate("/");
     },
-    onError: (error) => {
+    onError: error => {
       console.log(`error : ${error}`);
     },
   });
+
   const confirmLogIn = async () => {
     const params = new URLSearchParams(search);
     const code = params.get("code");
@@ -35,6 +36,7 @@ export default function GithubConfirm() {
   useEffect(() => {
     confirmLogIn();
   }, []);
+
   return (
     <VStack justifyContent={"center"} mt={40}>
       <Heading>Processing log in...</Heading>
