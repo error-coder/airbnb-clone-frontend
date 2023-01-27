@@ -131,6 +131,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                 {...register("password", { required: true })}
                 variant={"filled"}
                 placeholder={"password"}
+                type="password"
               />
             </InputGroup>
             <Select

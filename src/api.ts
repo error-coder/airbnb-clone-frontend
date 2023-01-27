@@ -11,15 +11,11 @@ export const getRooms = () =>
   instance.get("rooms/").then(response => response.data);
 
 export const getRoom = ({ queryKey }: QueryFunctionContext) => {
-  const [_, roomPk] = queryKey;
-  return instance.get(`rooms/${roomPk}`).then(response => response.data);
+  instance.get(`rooms/${queryKey[1]}`).then(response => response.data);
 };
 
 export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
-  const [_, roomPk] = queryKey;
-  return instance
-    .get(`rooms/${roomPk}/reviews`)
-    .then(response => response.data);
+  instance.get(`rooms/${queryKey[1]}/reviews`).then(response => response.data);
 };
 
 export const getMe = () =>
@@ -47,7 +43,7 @@ export const githubLogIn = (code: string) =>
     )
     .then(response => response.status);
 
-export const kakaoLogin = (code: string) =>
+export const kakaoLogIn = (code: string) =>
   instance
     .post(
       `users/kakao`,
@@ -93,7 +89,7 @@ export const getAmenities = () =>
   instance.get(`rooms/amenities`).then(response => response.data);
 
 export const getCategories = () =>
-  instance.get(`categories`).then(response => response.data);
+  instance.get(`categories/`).then(response => response.data);
 
 export interface IUploadRoomVariables {
   name: string;
@@ -110,9 +106,9 @@ export interface IUploadRoomVariables {
   category: number;
 }
 
-export const uploadRoom = (variables: IUploadRoomVariables) =>
+export const uploadRoom = (data: IUploadRoomVariables) =>
   instance
-    .post(`rooms/`, variables, {
+    .post(`rooms/`, data, {
       headers: {
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },

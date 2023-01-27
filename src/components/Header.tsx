@@ -49,7 +49,6 @@ export default function Header() {
         title: "Login Out...",
         description: "Sad to see you go...",
         status: "loading",
-        duration: 10000,
         position: "bottom-right",
       });
     },
@@ -77,10 +76,8 @@ export default function Header() {
       spacing={{ sm: 4, md: 0 }}
       borderBottomWidth={1}
     >
-      <Box color={logoColor}>
-        <Link to={"/"}>
-          <FaAirbnb size={"48"} />
-        </Link>
+      <Box color={logoColor} as="a" href="/">
+        <FaAirbnb size={"48"} />
       </Box>
       <HStack spacing={2}>
         <IconButton

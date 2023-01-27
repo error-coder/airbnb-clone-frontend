@@ -167,7 +167,7 @@ export default function UploadRoom() {
                 {...register("category", { required: true })}
                 placeholder="Choose a category"
               >
-                {categories?.map((category) => (
+                {categories?.map(category => (
                   <option key={category.pk} value={category.pk}>
                     {category.name}
                   </option>
@@ -179,8 +179,8 @@ export default function UploadRoom() {
             </FormControl>
             <FormControl>
               <FormLabel>Amenities</FormLabel>
-              <Grid templateColumns={"1fr 1fr"} gap={5}>
-                {amenities?.map((amenity) => (
+              <Grid templateColumns={"1fr 1fr"} gap={4}>
+                {amenities?.map(amenity => (
                   <Box key={amenity.pk}>
                     <Checkbox
                       value={amenity.pk}

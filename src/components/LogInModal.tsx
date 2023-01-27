@@ -18,7 +18,12 @@ import {
 import { FaUserNinja, FaLock } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { usernameLogIn } from "../api";
+import {
+  IUsernameLoginError,
+  IUsernameLoginSuccess,
+  IUsernameLoginVariables,
+  usernameLogIn,
+} from "../api";
 
 interface LogInModalProps {
   isOpen: boolean;
@@ -39,7 +44,11 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
   } = useForm<IForm>();
   const toast = useToast();
   const queryClient = useQueryClient();
-  const mutation = useMutation(usernameLogIn, {
+  const mutation = useMutation<
+    IUsernameLoginError,
+    IUsernameLoginSuccess,
+    IUsernameLoginVariables
+  >(usernameLogIn, {
     onSuccess: () => {
       toast({
         title: "welcome back!",
@@ -75,7 +84,7 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
                   required: "Please write a username",
                 })}
                 variant={"filled"}
-                placeholder={"Username"}
+                placeholder={"username"}
               />
               <Text fontSize={"sm"} color="red.500">
                 {errors.username?.message}
@@ -90,7 +99,7 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
                 }
               />
               <Input
-                isInvalid={Boolean(errors.username?.message)}
+                isInvalid={Boolean(errors.password?.message)}
                 {...register("password", {
                   required: "Please write a password",
                 })}
@@ -98,9 +107,6 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
                 variant={"filled"}
                 placeholder={"Password"}
               />
-              <Text fontSize={"sm"} color="red.500">
-                {errors.password?.message}
-              </Text>
             </InputGroup>
           </VStack>
           {mutation.isError ? (

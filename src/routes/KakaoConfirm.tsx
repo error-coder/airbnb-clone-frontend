@@ -2,14 +2,14 @@ import { Text, Heading, VStack, Spinner, useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { kakaoLogin } from "../api";
+import { kakaoLogIn } from "../api";
 
 export default function KakaoConfirm() {
   const { search } = useLocation();
   const toast = useToast();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const mutation = useMutation(kakaoLogin, {
+  const mutation = useMutation(kakaoLogIn, {
     onMutate: () => {
       console.log("mutation starting");
     },
