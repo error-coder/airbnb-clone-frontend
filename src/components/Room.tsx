@@ -62,7 +62,7 @@ export default function Room({
             onClick={onCameraClick}
             color="white"
           >
-            {isOwner ? <FaCamera size="20px" /> : <FaRegHeart size={20} />}
+            {isOwner ? <FaCamera size="20px" /> : <FaRegHeart size="20px" />}
           </Button>
         </Box>
         <Box>

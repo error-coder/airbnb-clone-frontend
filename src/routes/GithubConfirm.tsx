@@ -10,9 +10,6 @@ export default function GithubConfirm() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutation = useMutation(githubLogIn, {
-    onMutate: () => {
-      console.log("start mutate");
-    },
     onSuccess: () => {
       toast({
         status: "success",
@@ -21,14 +18,10 @@ export default function GithubConfirm() {
       queryClient.refetchQueries(["me"]);
       navigate("/");
     },
-    onError: error => {
-      console.log(`error : ${error}`);
-    },
   });
 
   const confirmLogIn = async () => {
-    const params = new URLSearchParams(search);
-    const code = params.get("code");
+    const code = new URLSearchParams(search).get("code");
     if (code) {
       mutation.mutate(code);
     }

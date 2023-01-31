@@ -21,7 +21,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   IUsernameLoginError,
   IUsernameLoginSuccess,
-  IUsernameLoginVariables,
+  IUsernameLogInVariables,
   usernameLogIn,
 } from "../api";
 
@@ -44,11 +44,7 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
   } = useForm<IForm>();
   const toast = useToast();
   const queryClient = useQueryClient();
-  const mutation = useMutation<
-    IUsernameLoginError,
-    IUsernameLoginSuccess,
-    IUsernameLoginVariables
-  >(usernameLogIn, {
+  const mutation = useMutation(usernameLogIn, {
     onSuccess: () => {
       toast({
         title: "welcome back!",

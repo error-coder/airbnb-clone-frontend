@@ -18,7 +18,7 @@ export default function Home() {
       rowGap={8}
       templateColumns={{
         sm: "1fr",
-        md: "1fr 1fr",
+        md: "repeat(2, 1fr)",
         lg: "repeat(3, 1fr)",
         xl: "repeat(4, 1fr)",
         "2xl": "repeat(5, 1fr)",
@@ -38,7 +38,7 @@ export default function Home() {
           <RoomSkeleton />
         </>
       ) : null}
-      {data?.map((room) => (
+      {data?.map(room => (
         <Room
           key={room.pk}
           pk={room.pk}

@@ -10,9 +10,6 @@ export default function KakaoConfirm() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutation = useMutation(kakaoLogIn, {
-    onMutate: () => {
-      console.log("mutation starting");
-    },
     onSuccess: () => {
       toast({
         status: "success",
@@ -20,9 +17,6 @@ export default function KakaoConfirm() {
       });
       queryClient.refetchQueries(["me"]);
       navigate("/");
-    },
-    onError: error => {
-      console.log(error);
     },
   });
 

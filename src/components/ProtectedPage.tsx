@@ -1,9 +1,9 @@
-import { ReactNode, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUser from "../lib/useUser";
 
 interface IProtectedPageProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function ProtectedPages({ children }: IProtectedPageProps) {
