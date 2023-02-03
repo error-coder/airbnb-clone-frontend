@@ -12,11 +12,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { createPhoto, getUploadURL, uploadImage } from "../api";
+import HostOnlyPage from "../components/HostOnlyPage";
 import useHostOnlyPage from "../components/HostOnlyPage";
 import ProtectedPage from "../components/ProtectedPage";
 
 interface IForm {
   file: FileList;
+  description: string;
 }
 
 interface IUploadURLResponse {
@@ -40,10 +42,10 @@ export default function UploadPhotos() {
     },
   });
   const uploadImageMutation = useMutation(uploadImage, {
-    onSuccess: ({ result } : any) => {
+    onSuccess: (data : any) => {
       if (roomPk) {
         createPhotoMutation.mutate({
-          description: "some test description",
+          description: watch("description"),
           file: ``,
           roomPk,
         });
@@ -58,13 +60,12 @@ export default function UploadPhotos() {
       });
     },
   });
-  useHostOnlyPage();
-  const onSubmit = () => {
+  const onSubmit = (data : any) => {
     uploadURLMutataion.mutate();
   };
-
   return (
     <ProtectedPage>
+      <HostOnlyPage>
         <Box
           pb={40}
           mt={10}
@@ -98,7 +99,8 @@ export default function UploadPhotos() {
               </Button>
             </VStack>
           </Container>
-        </Box>      
+        </Box>
+      </HostOnlyPage>
     </ProtectedPage>
   );
 }

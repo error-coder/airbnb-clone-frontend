@@ -1,4 +1,3 @@
-import { FaAirbnb, FaMoon, FaSun } from "react-icons/fa";
 import {
   Stack,
   Box,
@@ -17,7 +16,8 @@ import {
   useToast,
   ToastId,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FaAirbnb, FaMoon, FaSun } from "react-icons/fa";
 import LogInModal from "./LogInModal";
 import SignUpModal from "./SignUpModal";
 import useUser from "../lib/useUser";
@@ -42,6 +42,7 @@ export default function Header() {
   const Icon = useColorModeValue(FaMoon, FaSun);
   const toast = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const toastId = useRef<ToastId>();
   const mutation = useMutation(logOut, {
     onMutate: () => {
@@ -54,13 +55,15 @@ export default function Header() {
     },
     onSuccess: () => {
       if (toastId.current) {
-        queryClient.refetchQueries(["me"]);
         toast.update(toastId.current, {
           status: "success",
           title: "Done!",
           description: "See you later!",
         });
       }
+      queryClient.refetchQueries(["me"]);
+      queryClient.refetchQueries(["rooms"]);
+      navigate("/");
     },
   });
   const onLogOut = async () => {
@@ -76,11 +79,11 @@ export default function Header() {
       spacing={{ sm: 4, md: 0 }}
       borderBottomWidth={1}
     >
-      <Box color={logoColor}>
-        <Link to={"/"}>
+      <Link to={"/"}>
+        <Box color={logoColor}>
           <FaAirbnb size={"48"} />
-        </Link>
-      </Box>
+        </Box>
+      </Link>
       <HStack spacing={2}>
         <IconButton
           onClick={toggleColorMode}
@@ -105,9 +108,14 @@ export default function Header() {
               </MenuButton>
               <MenuList>
                 {user?.is_host ? (
+                  <>
+                  <Link to="/manage-bookings">
+                      <MenuItem>Manage bookings</MenuItem>
+                    </Link>
                   <Link to="/rooms/upload">
                     <MenuItem>Upload room</MenuItem>
                   </Link>
+                  </>
                 ) : null}
                 <MenuItem onClick={onLogOut}>Log out</MenuItem>
               </MenuList>

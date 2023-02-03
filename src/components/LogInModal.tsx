@@ -17,12 +17,12 @@ import {
 } from "@chakra-ui/react";
 import { FaUserNinja, FaLock } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
+  usernameLogIn,
   IUsernameLoginError,
   IUsernameLoginSuccess,
-  IUsernameLogInVariables,
-  usernameLogIn,
+  IUsernameLoginVariables,
 } from "../api";
 
 interface LogInModalProps {
@@ -44,15 +44,25 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
   } = useForm<IForm>();
   const toast = useToast();
   const queryClient = useQueryClient();
-  const mutation = useMutation(usernameLogIn, {
-    onSuccess: () => {
+  const mutation = useMutation<
+    IUsernameLoginSuccess,
+    IUsernameLoginError,
+    IUsernameLoginVariables
+  >(usernameLogIn, {
+    onMutate: () => {
+      console.log("mutation starting");
+    },
+    onSuccess: (data) => {
       toast({
-        title: "welcome back!",
+        title: "Welcome back!",
         status: "success",
       });
       onClose();
-      queryClient.refetchQueries(["me"]);
       reset();
+      queryClient.refetchQueries(["me"]);
+    },
+    onError: (error) => {
+      console.log("mutation has an error");
     },
   });
   const onSubmit = ({ username, password }: IForm) => {
@@ -105,20 +115,20 @@ export default function LogInModal({ isOpen, onClose }: LogInModalProps) {
               />
             </InputGroup>
           </VStack>
-          {mutation.isError ? (
-            <Text color="red.500" textAlign={"center"} fontSize="sm">
-              Username or Password are wrong
-            </Text>
-          ) : null}
           <Button
             isLoading={mutation.isLoading}
             type="submit"
-            mt={4}
+            marginTop={4}
             colorScheme={"red"}
             w="100%"
           >
             Log in
           </Button>
+          {mutation.isError ? (
+            <Text color={"red.500"} textAlign="center" fontSize={"sm"} mt={5}>
+              Username or Password are wrong
+            </Text>
+          ) : null}
           <SocialLogin />
         </ModalBody>
       </ModalContent>

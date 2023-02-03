@@ -3,6 +3,9 @@ import Root from "./components/Root";
 import GithubConfirm from "./routes/GithubConfirm";
 import Home from "./routes/Home";
 import KakaoConfirm from "./routes/KakaoConfirm";
+import ManageBookings from "./routes/ManageBookings";
+import ModifyRoom from "./routes/ModifyRoom";
+import MyBookings from "./routes/MyBookings";
 import NotFound from "./routes/NotFound";
 import RoomDetail from "./routes/RoomDetail";
 import UploadPhotos from "./routes/UploadPhotos";
@@ -19,6 +22,14 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "mybookings",
+        element: <MyBookings />,
+      },
+      {
+        path: "manage-bookings",
+        element: <ManageBookings />,
+      },
+      {
         path: "rooms/upload",
         element: <UploadRoom />,
       },
@@ -29,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "rooms/:roomPk/photos",
         element: <UploadPhotos />,
+      },
+      {
+        path: "rooms/:roomPk/modify",
+        element: <ModifyRoom />,
       },
       {
         path: "social",

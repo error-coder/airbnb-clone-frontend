@@ -18,7 +18,7 @@ export default function Home() {
       rowGap={8}
       templateColumns={{
         sm: "1fr",
-        md: "repeat(2, 1fr)",
+        md: "1fr 1fr",
         lg: "repeat(3, 1fr)",
         xl: "repeat(4, 1fr)",
         "2xl": "repeat(5, 1fr)",
@@ -44,11 +44,10 @@ export default function Home() {
           pk={room.pk}
           isOwner={room.is_owner}
           imageUrl={room.photos[0]?.file}
-          name={room.name}
-          rating={room.rating}
-          city={room.city}
-          country={room.country}
+          rating={room.rating}          
           price={room.price}
+          description={room.name}
+          category={room.category.name}
         />
       ))}
     </Grid>

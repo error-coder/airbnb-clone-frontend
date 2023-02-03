@@ -15,6 +15,6 @@ export default function ProtectedPages({ children }: IProtectedPageProps) {
         navigate("/");
       }
     }
-  }, [isLoggedIn, navigate, userLoading]);
+  }, [isLoggedIn, userLoading]);
   return <>{children}</>;
 }
