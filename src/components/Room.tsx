@@ -1,3 +1,4 @@
+import { FaStar, FaHeart, FaRegHeart, FaCamera } from 'react-icons/fa';
 import {
     Box,
     Button,
@@ -7,78 +8,92 @@ import {
     Text,
     useColorModeValue,
     VStack,
-  } from "@chakra-ui/react";
-  import { SyntheticEvent } from "react";
-  import { FaCamera, FaRegHeart, FaStar } from "react-icons/fa";
-  import { Link, useNavigate } from "react-router-dom";
-  
-  interface RoomProps {
-    id: number;
-    imageUrl: string;
+} from '@chakra-ui/react';
+import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+
+interface IRoomProps {
+    pk: number;
+    isOwner: boolean;
+    imgUrl: string;
     name: string;
-    rating: number;
     city: string;
     country: string;
+    rating: number;
     price: number;
-    isOwner: boolean;
-  }
-  
-  export default function Room({
-    id,
-    imageUrl,
+}
+
+export default function Room({
+    pk,
+    isOwner,
+    imgUrl,
     name,
     rating,
     city,
     country,
     price,
-    isOwner,
-  }: RoomProps) {
-    const gray = useColorModeValue("gray.600", "gray.300");
+}: IRoomProps) {
     const navigate = useNavigate();
-  
-    const onCameraClick = (event: SyntheticEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-      navigate(`/rooms/${id}/photos`);
+
+    const gray = useColorModeValue('gray.600', 'gray.300');
+
+    const onCameraClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        navigate(`/rooms/${pk}/photos`);
     };
-  
+
     return (
-      <Link to={`/rooms/${id}`}>
-        <VStack alignItems="flex-start">
-          <Box position="relative" overflow={"hidden"} mb={3} rounded="xl">
-            {imageUrl ? (
-              <Image objectFit={"cover"} minH="280" src={imageUrl} />
-            ) : (
-              <Box minH="280px" h="100%" w="100%" p={10} bg="green.400" />
-            )}
-            <Button
-              variant="unstyled"
-              color="white"
-              position="absolute"
-              top={0}
-              right={0}
-              onClick={onCameraClick}
-            >
-              {isOwner ? <FaCamera size={20} /> : <FaRegHeart size={20} />}
-            </Button>
-          </Box>
-          <Box>
-            <Grid templateColumns={"6fr 1fr"} gap={2}>
-              <Text noOfLines={1} fontSize="md" as="b">
-                {name}
-              </Text>
-              <HStack spacing={1}>
-                <FaStar size={15} />
-                <Text>{rating}</Text>
-              </HStack>
-            </Grid>
-            <Text fontSize="sm" color={gray}>
-              {city}, {country}
-            </Text>
-          </Box>
-          <Text fontSize="sm" color={gray}>
-            <Text as="b">${price}</Text> / night
-          </Text>
-        </VStack>
-      </Link>
+        <Link to={`/rooms/${pk}`}>
+            <VStack alignItems={'flex-start'} h="100%">
+                <Box
+                    flex={1}
+                    w="100%"
+                    overflow={'hidden'}
+                    mb={3}
+                    rounded="2xl"
+                    position={'relative'}
+                >
+                    <Image w="100%" h="100%" objectFit={'cover'} src={imgUrl} />
+                    <Button
+                        variant={'unstyled'}
+                        color="white"
+                        top={0}
+                        right={0}
+                        position={'absolute'}
+                        onClick={onCameraClick}
+                    >
+                        {isOwner ? (
+                            <FaCamera size="20px" />
+                        ) : (
+                            <FaRegHeart size="20px" />
+                        )}
+                    </Button>
+                </Box>
+
+                <Box>
+                    <Grid gap={2} templateColumns={'6fr 1fr'}>
+                        <Text as="b" noOfLines={1} fontSize="md">
+                            {name}
+                        </Text>
+                        <HStack
+                            _hover={{ color: 'red.100' }}
+                            spacing={1}
+                            color="gray"
+                        >
+                            <FaStar size={15} />
+                            <Text>{rating}</Text>
+                        </HStack>
+                    </Grid>
+
+                    <Text fontSize={'sm'} color={gray}>
+                        {city}, {country}
+                    </Text>
+                </Box>
+
+                <Text fontSize={'sm'} color={gray}>
+                    <Text as="b">${price}</Text> / night
+                </Text>
+            </VStack>
+        </Link>
     );
-  }
+}

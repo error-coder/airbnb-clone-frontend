@@ -1,11 +1,11 @@
 export interface IRoomPhotoPhoto {
-    id: string;
+    pk: string;
     file: string;
     description: string;
-  }
-  
-  export interface IRoomList {
-    id: number;
+}
+
+export interface IRoomList {
+    pk: number;
     name: string;
     country: string;
     city: string;
@@ -13,27 +13,28 @@ export interface IRoomPhotoPhoto {
     rating: number;
     is_owner: boolean;
     photos: IRoomPhotoPhoto[];
-  }
-  
-  export interface IRoomOwner {
+}
+
+export interface IRoomOwner {
     name: string;
     avatar: string;
     username: string;
-  }
-  
-  export interface IAmenity {
+}
+
+export interface IAmenity {
     pk: number;
     name: string;
     description: string;
-  }
-  
-  export interface ICategory {
+}
+
+export interface ICategory {
     pk: number;
     name: string;
     kind: string;
-  }
-  
-  export interface IRoomDetail extends IRoomList {
+}
+
+export interface IRoomDetail extends IRoomList {
+    id: number;
     created_at: string;
     updated_at: string;
     rooms: number;
@@ -47,23 +48,10 @@ export interface IRoomPhotoPhoto {
     category: ICategory;
     owner: IRoomOwner;
     amenities: IAmenity[];
-  }
-  
-  export interface IReview {
+}
+
+export interface IReview {
     payload: string;
     rating: number;
     user: IRoomOwner;
-  }
-  
-  export interface IUser {
-    last_login: string;
-    username: string;
-    email: string;
-    date_joined: string;
-    avatar: string;
-    name: string;
-    is_host: boolean;
-    gender: string;
-    language: string;
-    currency: string;
-  }
+}
