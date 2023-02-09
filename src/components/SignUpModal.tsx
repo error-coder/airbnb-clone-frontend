@@ -15,7 +15,6 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { FaUserNinja, FaLock, FaEnvelope, FaUserSecret } from 'react-icons/fa';
-import SocialLogin from './SocialLogin';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { SignUp } from '../api';
@@ -165,8 +164,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                         type="submit"
                     >
                         Sign Up
-                    </Button>
-                    <SocialLogin />
+                    </Button>                
                 </ModalBody>
             </ModalContent>
         </Modal>

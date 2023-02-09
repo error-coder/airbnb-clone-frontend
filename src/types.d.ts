@@ -33,8 +33,7 @@ export interface IRoomPhotoPhoto {
     kind: string;
   }
   
-  export interface IRoomDetail extends IRoomList {
-    id: number;
+  export interface IRoomDetail extends IRoomList {    
     created_at: string;
     updated_at: string;
     rooms: number;

@@ -26,10 +26,11 @@ import {
     IUploadRoomVariables,
     uploadRoom,
 } from '../api';
-import useHostOnlyPage from '../components/HostOnlyPage';
+import HostOnlyPage from '../components/HostOnlyPage';
 import ProtectedPage from '../components/ProtectedPage';
 import { IAmenity, ICategory, IRoomDetail } from '../types';
 import { useNavigate } from 'react-router-dom';
+
 
 export default function UploadRoom() {
     const { register, handleSubmit } = useForm<IUploadRoomVariables>();
@@ -42,7 +43,7 @@ export default function UploadRoom() {
                 title: 'Room created',
                 position: 'bottom-right',
             });
-            navigate(`/rooms/${data.id}`);
+            navigate(`/rooms/${data.pk}`);
         },
     });
     const { data: amenities } = useQuery<IAmenity[]>(
@@ -52,13 +53,15 @@ export default function UploadRoom() {
     const { data: categories } = useQuery<ICategory[]>(
         ['categories'],
         getCategories
-    );
-    useHostOnlyPage();
+    );    
+
     const onSubmit = (data: IUploadRoomVariables) => {
         mutation.mutate(data);
     };
+
     return (
         <ProtectedPage>
+            <HostOnlyPage>
             <Box
                 pb={40}
                 mt={10}
@@ -230,6 +233,7 @@ export default function UploadRoom() {
                     </VStack>
                 </Container>
             </Box>
+            </HostOnlyPage>
         </ProtectedPage>
     );
 }

@@ -10,17 +10,13 @@ const instance = axios.create({
 export const getRooms = () =>
     instance.get('rooms/').then((response) => response.data);
 
-export const getRoom = ({ queryKey }: QueryFunctionContext) => {
-    const [_, roomPk] = queryKey;
-    return instance.get(`rooms/${roomPk}`).then((response) => response.data);
-};
+export const getRoom = ({ queryKey }: QueryFunctionContext) =>
+    instance.get(`rooms/${queryKey[1]}`).then((response) => response.data);
 
-export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
-    const [_, roomPk] = queryKey;
-    return instance
-        .get(`rooms/${roomPk}/reviews`)
+export const getRoomReviews = ({ queryKey }: QueryFunctionContext) =>
+    instance
+        .get(`rooms/${queryKey[1]}/reviews`)
         .then((response) => response.data);
-};
 
 export const getMe = () =>
     instance.get(`users/me`).then((response) => response.data);
@@ -33,32 +29,6 @@ export const logOut = () =>
             },
         })
         .then((response) => response.data);
-
-export const githubLogIn = (code: string) =>
-    instance
-        .post(
-            `users/github`,
-            { code },
-            {
-                headers: {
-                    'X-CSRFToken': Cookie.get('csrftoken') || '',
-                },
-            }
-        )
-        .then((response) => response.status);
-
-export const kakaoLogin = (code: string) =>
-    instance
-        .post(
-            `users/kakao`,
-            { code },
-            {
-                headers: {
-                    'X-CSRFToken': Cookie.get('csrftoken') || '',
-                },
-            }
-        )
-        .then((response) => response.status);
 
 export interface IUsernameLoginVariables {
     username: string;
@@ -74,18 +44,16 @@ export interface IUsernameLoginError {
 export const usernameLogIn = ({
     username,
     password,
-}: IUsernameLoginVariables) =>
+  }: IUsernameLoginVariables) =>
     instance
-        .post(
-            `users/log-in`,
-            { username, password },
-            {
-                headers: {
-                    'X-CSRFToken': Cookie.get('csrftoken') || '',
-                },
-            }
-        )
-        .then((response) => response.data);
+      .post(
+        `users/log-in`,
+        { username, password },
+        {
+          headers: { "X-CSRFToken": Cookie.get("csrftoken") || "" },
+        }
+      )
+      .then((response) => response.data);
 
 interface ISignUpVariables {
     name: string;
@@ -120,7 +88,7 @@ export const getAmenities = () =>
     instance.get(`rooms/amenities`).then((response) => response.data);
 
 export const getCategories = () =>
-    instance.get(`categories`).then((response) => response.data);
+    instance.get(`categories/`).then((response) => response.data);
 
 export interface IUploadRoomVariables {
     name: string;
@@ -163,6 +131,7 @@ export interface IUploadImageVarialbes {
 export const uploadImage = ({ file, uploadURL }: IUploadImageVarialbes) => {
     const form = new FormData();
     form.append('file', file[0]);
+    
     return axios
         .post(uploadURL, form, {
             headers: {
