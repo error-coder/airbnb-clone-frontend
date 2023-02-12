@@ -45,7 +45,7 @@ export default function UploadPhotos() {
                 createPhotoMutation.mutate({
                     roomPk,
                     description: 'some test description',
-                    file: ``,
+                    file: `https://imagedelivery.net/U7a1zvDTBfh1jFMRCafs9w/ef3bf559-e36a-4c1e-85ab-edc84f6d6e00/public`,
                 });
             }
         },

@@ -26,16 +26,9 @@ export default function Home() {
         >
             {isLoading && (
                 <>
-                    <RoomSkeleton />
-                    <RoomSkeleton />
-                    <RoomSkeleton />
-                    <RoomSkeleton />
-                    <RoomSkeleton />
-                    <RoomSkeleton />
-                    <RoomSkeleton />
-                    <RoomSkeleton />
-                    <RoomSkeleton />
-                    <RoomSkeleton />
+                    {new Array(10).map((v, i) => (
+                        <RoomSkeleton key={i} />
+                    ))}
                 </>
             )}
             {data?.map((room) => (
